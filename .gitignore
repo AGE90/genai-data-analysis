@@ -162,12 +162,9 @@ cython_debug/
 # Configurations
 .vscode/
 
-# Project files
+# Project data files
 *.csv
 *.db
 
-# Project folders
-data/
-
 # Secrets
-secrets/
+# secrets/

@@ -11,6 +11,9 @@ genai-data-analysis/
 │
 ├── .venv/                    # Virtual environment folder
 ├── data/                     # Project data files
+│   ├── raw/                  # Raw data files
+│   ├── processed/            # Processed data files
+│   └── external/             # External data files
 ├── docs/                     # Holds project documentation
 │   ├── install.md            # Installation guide
 │   └── project_structure.md  # Project structure documentation
