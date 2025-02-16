@@ -1,0 +1,76 @@
+[build-system] # Package built
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project] # Project's metadata
+name = "genaianalysis"
+version = "0.1.0"
+description = "A short description of the project."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "No license file"}
+
+# Authors
+authors = [
+    {name = "AGE90", email = "alejandrogomezechavarria@gmail.com"}
+]
+
+# Supported Python versions and the OS compatibility
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: No license file",
+    "Operating System :: OS Independent",
+]
+
+# Required dependencies `pip install .`
+dependencies = [
+    "pyprojroot",
+    "pathlib",
+]
+
+# Required dependencies for development `pip install .[dev]`
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "mypy",
+    "flake8",
+    "black",
+]
+
+# Links related to the project.
+[project.urls]
+Homepage = "https://example.com"
+"Bug Tracker" = "https://example.com/issues"
+
+# Configures setuptools package discovery
+[tool.setuptools.packages.find]
+where = ["src"] # Packages located inside the `src/` directory
+include = ["*"] # Include all
+exclude = ["tests*"] # Excludes test files from packaging
+
+[tool.setuptools]
+package-dir = {"" = "src"} # Main package directory
+
+# Configures pytest
+[tool.pytest.ini_options]
+addopts = "--cov=src" # Runs tests with coverage reporting on `src/`
+testpaths = [
+    "tests",
+]
+
+# Configures `mypy`, a static type checker. Enables strict type checking with various warnings
+[tool.mypy]
+mypy_path = "src"
+check_untyped_defs = true
+disallow_any_generics = true
+ignore_missing_imports = true
+no_implicit_optional = true
+show_error_codes = true
+strict_equality = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unreachable = true
+warn_unused_configs = true
+no_implicit_reexport = true

@@ -1,0 +1,6 @@
+ipykernel
+pip-chill
+pandas
+google-generativeai
+google-cloud-aiplatform
+google-auth
