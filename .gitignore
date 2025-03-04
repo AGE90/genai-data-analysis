@@ -167,4 +167,4 @@ cython_debug/
 *.db
 
 # Secrets
-# secrets/
+secrets/
