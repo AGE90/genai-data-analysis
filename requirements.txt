@@ -1,6 +1,8 @@
 ipykernel
 pip-chill
+python-dotenv
 pandas
-google-generativeai
+google-genai
 google-cloud-aiplatform
 google-auth
+pydantic
