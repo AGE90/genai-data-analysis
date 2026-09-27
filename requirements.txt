@@ -1,8 +1,0 @@
-ipykernel
-pip-chill
-python-dotenv
-pandas
-google-genai
-google-cloud-aiplatform
-google-auth
-pydantic

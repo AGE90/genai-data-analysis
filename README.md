@@ -1,17 +1,12 @@
 # Gen AI Data Analysis
 
-A Python package for generative AI data analysis and processing.
+A data-science toolbox and lab for turning human data (chats, surveys, tickets, audio, images) into structured, evaluated results using LLMs and other generative models.
 
 ## Overview
 
-Gen AI Data Analysis provides a framework for analyzing and processing data related to generative AI applications. The package is designed to streamline data workflows and provide reusable components for AI analysis tasks.
-
-## Features
-
-- Modular architecture for extensible data analysis
-- Built-in path management utilities
-- Jupyter notebook integration
-- Development-friendly setup
+- Any source is normalized into one conversation format, any task is a typed (pydantic) output schema, and any model is a name you can swap (Gemini, Claude, OpenAI, local, System-One models such as TypeSafe's Jev).
+- Every technique is compared on the same labeled data, so upgrades are judged by numbers.
+- Notebooks are the lab; code reused across notebooks moves into `src/genaianalysis`.
 
 ## Installation
 
@@ -30,12 +25,4 @@ A detailed project structure is available in the [docs/project_structure.md](doc
 
 ## Development
 
-The project is set up for active development with:
-
-- Editable mode installation
-- Automatic code reloading in notebooks
-- Modular package structure
-- Requirements
-- Python >= 3.10
-- Virtual environment management
-- Additional dependencies listed in requirements.txt
+Managed with [uv](https://docs.astral.sh/uv/): `uv sync`, then `uv run pytest`, `uv run ruff check .`, `uv run mypy src`.

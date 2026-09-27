@@ -1,68 +1,44 @@
-[build-system] # Package built
-requires = ["setuptools>=61.0", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[project] # Project's metadata
+[project]
 name = "genaianalysis"
-version = "0.1.0"
-description = "A short description of the project."
+version = "0.2.0"
+description = "Lab and toolbox for turning human data (chats, surveys, tickets, media) into structured, evaluated results with LLMs and other generative models."
 readme = "README.md"
-requires-python = ">=3.10"
-license = {text = "No license file"}
-
-# Authors
-authors = [
-    {name = "AGE90", email = "alejandrogomezechavarria@gmail.com"}
-]
-
-# Supported Python versions and the OS compatibility
-classifiers = [
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "License :: OSI Approved :: No license file",
-    "Operating System :: OS Independent",
-]
-
-# Required dependencies `pip install .`
+requires-python = ">=3.11"
+authors = [{ name = "AGE90", email = "alejandrogomezechavarria@gmail.com" }]
 dependencies = [
-    "pyprojroot",
-    "pathlib",
+    "pandas>=2.2",
+    "pyarrow>=17",
+    "pydantic>=2.8",
+    "pydantic-ai-slim[google,anthropic,openai]>=2.0",
+    "pyprojroot>=0.3",
+    "python-dotenv>=1.0",
 ]
 
-# Required dependencies for development `pip install .[dev]`
-[project.optional-dependencies]
+[dependency-groups]
 dev = [
-    "pytest>=6.0",
-    "pytest-cov",
+    "ipykernel",
     "mypy",
-    "flake8",
-    "black",
+    "pytest",
+    "ruff",
 ]
 
-# Links related to the project.
-[project.urls]
-Homepage = "https://example.com"
-"Bug Tracker" = "https://example.com/issues"
+[build-system]
+requires = ["uv_build>=0.8,<0.12"]
+build-backend = "uv_build"
 
-# Configures setuptools package discovery
-[tool.setuptools.packages.find]
-where = ["src"] # Packages located inside the `src/` directory
-include = ["*"] # Include all
-exclude = ["tests*"] # Excludes test files from packaging
+[tool.ruff]
+line-length = 100
+extend-exclude = ["src/genaianalysis/generate/to_migrate.py"] # legacy dump, ported in Phase 1
 
-[tool.setuptools]
-package-dir = {"" = "src"} # Main package directory
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
 
-# Configures pytest
 [tool.pytest.ini_options]
-addopts = "--cov=src" # Runs tests with coverage reporting on `src/`
-testpaths = [
-    "tests",
-]
+testpaths = ["tests"]
 
-# Configures `mypy`, a static type checker. Enables strict type checking with various warnings
 [tool.mypy]
 mypy_path = "src"
+exclude = ["to_migrate\\.py$"]
 check_untyped_defs = true
 disallow_any_generics = true
 ignore_missing_imports = true

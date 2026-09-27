@@ -2,33 +2,19 @@
 
 ```bash
 genai-data-analysis/
-├── .env                      # Environment variables
-├── .gitignore                # Git ignore file
-├── pyproject.toml            # Configuration file for Poetry
-├── README.md                 # Project overview and instructions
-├── requirements.txt          # Project dependencies
-├── setup.py                  # Package installation configuration
-│
-├── .venv/                    # Virtual environment folder
-├── data/                     # Project data files
-│   ├── raw/                  # Raw data files
-│   ├── processed/            # Processed data files
-│   └── external/             # External data files
-├── docs/                     # Holds project documentation
-│   ├── install.md            # Installation guide
-│   └── project_structure.md  # Project structure documentation
-├── notebooks/                # Jupyter notebooks for data analysis
+├── .env.example              # Credential variable names (copy to .env, git-ignored)
+├── .python-version           # Python version used by uv
+├── pyproject.toml            # Metadata, dependencies, ruff/pytest/mypy config
+├── uv.lock                   # Locked dependency versions
+├── data/                     # raw/ processed/ external/ (git-ignored contents)
+├── docs/                     # Documentation
+├── notebooks/                # Lab: one numbered notebook per technique/experiment
 ├── pipelines/                # Task automation and data processing pipelines
-├── reports/                  # Project reports and analysis results
-├── secrets/                  # Sensitive data and credentials
-├── src/                      # Source code
-│   └──genaianalysis/         # Core package with reusable code
-│       ├── __init__.py       # Package initialization
-│       ├── credentials.py    # Credentials management
-│       │
-│       ├── data/             # Data management and processing
-│       ├── generate/         # Generative AI functions
-│       └── utils/            # Utility functions
-│           └── paths.py      # Path management utilities
-└── test/                     # Unit tests
+├── reports/                  # Analysis results
+├── secrets/                  # Service-account keys (git-ignored)
+├── src/genaianalysis/        # Reusable package
+│   ├── data/                 # Data loading / processing
+│   ├── generate/             # Generative-model tasks (to_migrate.py: legacy code, ported in Phase 1)
+│   └── utils/paths.py        # Project-relative path helpers
+└── tests/                    # pytest tests
 ```
