@@ -12,6 +12,7 @@ class Message(BaseModel):
     sender: str  # role ("customer", "agent", "user") or pseudonymized name
     text: str
     timestamp: datetime | None = None
+    media: str | None = None  # path to an attached file (image, voice note, video, document)
 
 
 class Conversation(BaseModel):
@@ -23,7 +24,10 @@ class Conversation(BaseModel):
     def to_text(self) -> str:
         def line(m: Message) -> str:
             ts = f"{m.timestamp.isoformat(' ', 'minutes')} - " if m.timestamp else ""
-            return f"{ts}{m.sender}: {m.text}"
+            text = m.text
+            if m.media and not text.startswith("["):  # not yet turned into text by describe_media
+                text = f"[attachment: {Path(m.media).name}] {text}".strip()
+            return f"{ts}{m.sender}: {text}"
 
         return "\n".join(line(m) for m in self.messages)
 

@@ -32,7 +32,6 @@ build-backend = "uv_build"
 
 [tool.ruff]
 line-length = 100
-extend-exclude = ["src/genaianalysis/generate/to_migrate.py"] # legacy dump, ported in Phase 1
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
@@ -43,7 +42,6 @@ testpaths = ["tests"]
 
 [tool.mypy]
 mypy_path = "src"
-exclude = ["to_migrate\\.py$"]
 check_untyped_defs = true
 disallow_any_generics = true
 ignore_missing_imports = true

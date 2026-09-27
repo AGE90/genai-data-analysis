@@ -25,3 +25,6 @@ What was tried, on what data, with what result. Append a dated entry for every e
 - `gemini-flash-lite-latest` (→ gemini-3.5-flash-lite), tweets: es acc 0.70 / F1 0.65 · en acc 0.90 / F1 0.92, ~$0.09 / 1k. Misses look like sarcasm or label noise (e.g. "muchas gracias bonita ❤" gold=neutral).
 - Synthetic: only 4/9 chats generated (`gemini-flash-latest` free tier = 20 req/day). Flash-Lite got 4/4 initial and final arcs right on those. Too few to mean anything.
 - Next: the full run (100 tweets/lang, 45 chats) needs a paid Gemini tier or an Anthropic key; then run notebook 05 once `TYPESAFE_API_KEY` is available.
+
+### 2026-09-27 · Notebook 03 on the synthetic WhatsApp fixture
+- Parse → anonymize → `SENTIMENT_ARC` with `gemini-flash-lite-latest` ran end to end on 2 sessions and 7 messages. Both arcs were plausible (negative → neutral, neutral → positive) with Spanish justifications, and redaction kept amounts like $50.000. Needs a real export to evaluate.

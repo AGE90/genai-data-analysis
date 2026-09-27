@@ -9,7 +9,7 @@ Managed with uv (Python pinned in `.python-version`); `uv sync` installs the pac
 ```bash
 uv sync
 uv run pytest                                   # all tests
-uv run pytest tests/test_paths.py::test_paths_resolve_from_project_root   # single test
+uv run pytest tests/test_whatsapp_privacy.py::test_redact_keeps_dates_and_amounts   # single test
 uv run ruff check .        # lint (ruff format . to format)
 uv run mypy src
 uv run jupyter nbconvert --execute --to notebook --output-dir <tmp> notebooks/<nb>.ipynb   # run a notebook headless
@@ -22,7 +22,7 @@ A data-science toolbox + lab for turning human data (WhatsApp chats, surveys, ti
 
 ## Architecture (target design, being built in phases)
 
-Phase 0 (uv, env auth) and phases 2–3 (benchmark, Jev) are built; phase 1 is only partly done (WhatsApp parser and `privacy.py` are still missing). The code rests on three stable seams; everything else should stay replaceable:
+Phases 0–3 are built (uv/env auth, WhatsApp pipeline, benchmark, Jev); phase 4+ is the technique backlog in `docs/research.md`. The code rests on three stable seams; everything else should stay replaceable:
 
 1. **Canonical data model**: every source (WhatsApp export `.txt`, CSV/JSONL, HF datasets, synthetic LLM-generated chats) is normalized into `Conversation[Message]` (text + optional media) in `schema.py`. A new source is one loader function in `ingest/`.
 2. **Task = pydantic output schema + instructions** (`tasks/`), e.g. a `SentimentArc` with `Literal` labels. Use typed outputs, never manual JSON parsing.
@@ -30,13 +30,15 @@ Phase 0 (uv, env auth) and phases 2–3 (benchmark, Jev) are built; phase 1 is o
 
 `run.cached_rows` is the shared driver for every backend. It gives bounded concurrency, `rpm` pacing, a per-item disk cache in `data/processed/cache/<backend>/`, and failures kept as rows with an `error` column (a failed item never raises). All backends return the same row shape: `id, task, backend, model, resolved_model, <output fields>, latency_s, input_tokens, output_tokens, cost_usd, error`; Jev adds `<field>_confidence` and `<field>_proba`.
 
-Plus `eval.score` (accuracy / macro-F1 / kappa / coverage / latency / cost / ECE vs gold in `Conversation.labels[field]`) so models are compared on the same data, a planned `privacy.py` redaction step (pseudonymize senders, strip phones/emails/IDs) before data is sent to any API, and results logged in `docs/research.md`. Don't add registries, factories or plugin systems until a second real need exists.
+Plus `eval.score` (accuracy / macro-F1 / kappa / coverage / latency / cost / ECE vs gold in `Conversation.labels[field]`) so models are compared on the same data, `privacy.anonymize` (sender pseudonyms/roles, name mentions, regex redaction of phones/emails/URLs/IDs, dates and amounts kept) which must run before text goes to any API, and results logged in `docs/research.md`. Media follows a describe-first rule: `media.describe_media` turns attachments into `[image] …` / `[audio] …` text once (cached per file hash), so every task stays text-only and Jev-compatible. Run it *before* `anonymize` so the descriptions get redacted too. It sends media raw to the provider.
 
-Planned phases: 1 = core pipeline with parity to the legacy WhatsApp sentiment system; 2 = HF + synthetic datasets and a model benchmark; 3 = Jev vs LLM (accuracy, calibration, latency, cost); 4+ = one notebook per technique (topic clustering, audio transcription, LLM-as-judge, distillation).
+`ingest/whatsapp.py` parses Android and iOS exports (es/en locales, 12h/24h clocks, `\u202f`/`\u200e` marks, multi-line messages, attachments, zip with media) and splits a chat into sessions by idle gap. Fixtures live in `tests/fixtures/`. Don't add registries, factories or plugin systems until a second real need exists.
+
+Notebooks: 03 WhatsApp → sentiment arc, 04 model benchmark, 05 Jev vs LLM. Phase 4+ = one notebook per technique (topic clustering, audio transcription, LLM-as-judge, distillation).
 
 ## Legacy code
 
-`src/genaianalysis/generate/to_migrate.py` is a pasted dump of two modules from a former employer's system (Firestore/GCS/BigQuery loaders + Vertex Gemini media-to-text and sentiment). **It is not valid Python** and is excluded from ruff and mypy in `pyproject.toml`. Port its ideas (`extract_media_from_json`, conversation formatting, media prompts, the sentiment prompt/examples), drop the company-specific infrastructure, then delete the file.
+The former employer's pipeline (`generate/to_migrate.py`: Firestore/GCS/BigQuery loaders, Vertex media-to-text, sentiment prompt) was ported and deleted. Its prompts live in `media.PROMPTS` and `tasks/sentiment.py`. The Wolkvox-specific `extract_media_from_json` (base64 data-URIs inside HTML) was not ported; recover it from git history (commit `17388a2`) if an HTML-export source ever appears.
 
 ## Credentials & models
 
