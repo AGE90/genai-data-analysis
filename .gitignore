@@ -162,9 +162,13 @@ cython_debug/
 # Configurations
 .vscode/
 
-# Project data files
+# Project data files (keep the folders via .gitkeep)
 *.csv
 *.db
+data/**/*
+!data/**/.gitkeep
+reports/**/*.parquet
+notebooks/_*.ipynb
 
 # Secrets
 secrets/

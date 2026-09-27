@@ -12,12 +12,16 @@ dependencies = [
     "pydantic-ai-slim[google,anthropic,openai]>=2.0",
     "pyprojroot>=0.3",
     "python-dotenv>=1.0",
+    "scikit-learn>=1.9.1",
+    "typesafe-sdk>=0.7.2",
 ]
 
 [dependency-groups]
 dev = [
     "ipykernel",
+    "matplotlib>=3.11.2",
     "mypy",
+    "nbconvert>=7.17.1",
     "pytest",
     "ruff",
 ]
@@ -32,6 +36,7 @@ extend-exclude = ["src/genaianalysis/generate/to_migrate.py"] # legacy dump, por
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+per-file-ignores = { "tests/*" = ["E501"], "*.ipynb" = ["E501", "E703", "F704"] }  # top-level await is fine in Jupyter
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
