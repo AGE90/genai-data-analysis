@@ -34,7 +34,7 @@ Plus `eval.score` (accuracy / macro-F1 / kappa / coverage / latency / cost / ECE
 
 `ingest/whatsapp.py` parses Android and iOS exports (es/en locales, 12h/24h clocks, `\u202f`/`\u200e` marks, multi-line messages, attachments, zip with media) and splits a chat into sessions by idle gap. Fixtures live in `tests/fixtures/`. Don't add registries, factories or plugin systems until a second real need exists.
 
-Notebooks: 03 WhatsApp → sentiment arc, 04 model benchmark, 05 Jev vs LLM. Phase 4+ = one notebook per technique (topic clustering, audio transcription, LLM-as-judge, distillation).
+Notebooks: 03 WhatsApp → sentiment arc, 04 model benchmark, 05 Jev vs LLM, 06 topic discovery (`topics.embed` via pydantic-ai `Embedder` → `topics.cluster` KMeans/silhouette → `topics.label_clusters` LLM naming). Notebook 06 reads the jsonl datasets that 04 writes to `data/processed/`. Phase 4+ = one notebook per technique from the radar in `docs/research.md`; promote code into the package only once a second notebook needs it.
 
 ## Legacy code
 

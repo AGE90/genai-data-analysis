@@ -19,7 +19,8 @@ genai-data-analysis/
 │   ├── ingest/               # whatsapp (txt/zip exports), tabular, hf (Hub parquet), synthetic chats
 │   ├── privacy.py            # anonymize(): pseudonyms + redaction before anything leaves the machine
 │   ├── media.py              # describe_media(): attachments -> text (transcribe/describe), cached
-│   ├── tasks/                # Task definitions (sentiment.py)
+│   ├── topics.py             # embed() -> cluster() -> label_clusters(): unsupervised topics
+│   ├── tasks/                # Task definitions (sentiment.py, topics.py)
 │   ├── backends/jev.py       # TypeSafe Jev System One backend (same Task, same row shape)
 │   └── utils/paths.py        # Project-relative path helpers
 └── tests/                    # pytest tests (+ fixtures/ with synthetic WhatsApp exports)
