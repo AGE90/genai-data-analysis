@@ -1,6 +1,7 @@
 # Caso de uso: modelos "System One" (Jev) en Protección S.A.
 
 > Propuesta del equipo transversal de analítica. Demo ejecutable: `notebooks/08-AGE90-proteccion_triage_jev.ipynb` (datos 100 % sintéticos).
+> Versión infografía para líderes: [`proteccion_jev_infografia.html`](proteccion_jev_infografia.html) (abrir en el navegador).
 > Las cifras de costo son de lista del proveedor y de nuestras pruebas; las referencias normativas deben validarse con Jurídica y Cumplimiento.
 
 ## 1 · Resumen ejecutivo

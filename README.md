@@ -8,7 +8,7 @@ A data-science toolbox and lab for turning human data (chats, surveys, tickets, 
 - Every technique is compared on the same labeled data, so upgrades are judged by numbers.
 - Notebooks are the lab; code reused across notebooks moves into `src/genaianalysis`.
 
-**New here? Start with the [walkthrough](docs/walkthrough.md).** Example business case: [Jev at a Colombian pension fund](docs/usecases/proteccion_jev.md) (demo in notebook 08).
+**New here? Start with the [walkthrough](docs/walkthrough.md).** Example business case: [Jev at a Colombian pension fund](docs/usecases/proteccion_jev.md) (demo in notebook 08, [infographic](docs/usecases/proteccion_jev_infografia.html)).
 
 ## Installation
 

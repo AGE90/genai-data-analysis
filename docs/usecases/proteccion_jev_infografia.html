@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Standalone copy of the published infographic. The artifact version gets its shell and mermaid rendering from the viewer. -->
+<title>Jev en Protección</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --ground: #F2F5F4;
+    --surface: #FFFFFF;
+    --ink: #14262E;
+    --muted: #56686E;
+    --rule: #D3DCDA;
+    --accent: #1D5C63;
+    --accent-soft: #E1EDEC;
+    --ochre: #C9822B;
+    --ochre-soft: #F6E9D6;
+    --bar-track: #E4EAE9;
+    --display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+    --body: "IBM Plex Sans", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --ground: #0E181B;
+      --surface: #152328;
+      --ink: #E3ECEA;
+      --muted: #97A9AC;
+      --rule: #2A3C41;
+      --accent: #6DB5B4;
+      --accent-soft: #1B3236;
+      --ochre: #E2A052;
+      --ochre-soft: #3A2D1C;
+      --bar-track: #22343A;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --ground: #0E181B;
+    --surface: #152328;
+    --ink: #E3ECEA;
+    --muted: #97A9AC;
+    --rule: #2A3C41;
+    --accent: #6DB5B4;
+    --accent-soft: #1B3236;
+    --ochre: #E2A052;
+    --ochre-soft: #3A2D1C;
+    --bar-track: #22343A;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.55;
+    padding-inline: 20px;
+    padding-block: 32px 56px;
+  }
+  .page { max-width: 1040px; margin-inline: auto; display: grid; gap: 56px; }
+  h1, h2, h3 { font-family: var(--display); text-wrap: balance; margin: 0; }
+  h2 { font-size: clamp(22px, 3vw, 28px); font-weight: 750; font-stretch: 88%; letter-spacing: -0.01em; }
+  h3 { font-size: 16px; font-weight: 700; font-stretch: 95%; }
+  p { margin: 0; }
+  a { color: var(--accent); text-underline-offset: 3px; }
+  a:focus-visible { outline: 2px solid var(--ochre); outline-offset: 2px; border-radius: 2px; }
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .lead { color: var(--muted); max-width: 62ch; }
+  .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  section { display: grid; gap: 20px; }
+  .section-head { display: grid; gap: 6px; }
+
+  /* 1 · thesis */
+  .hero { display: grid; grid-template-columns: 1.35fr 1fr; gap: 40px; align-items: end; border-bottom: 2px solid var(--ink); padding-block-end: 32px; }
+  .hero h1 { font-size: clamp(34px, 5.4vw, 58px); line-height: 1.02; font-weight: 800; font-stretch: 78%; letter-spacing: -0.02em; margin-block: 10px 16px; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .figures { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+  .figure { display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: baseline; padding-block: 14px; border-bottom: 1px solid var(--rule); }
+  .figure .big { font-family: var(--display); font-size: 40px; font-weight: 800; font-stretch: 70%; line-height: 1; min-width: 4.2ch; font-variant-numeric: tabular-nums; }
+  .figure .big small { font-size: 18px; font-weight: 700; }
+  .figure p { font-size: 14px; color: var(--muted); }
+  .figure p strong { color: var(--ink); font-weight: 600; }
+
+  /* 2 · comparison */
+  .compare { display: grid; grid-template-columns: 140px 1fr 1fr; border: 1px solid var(--rule); background: var(--surface); border-radius: 6px; overflow: hidden; }
+  .compare > div { padding: 12px 16px; border-top: 1px solid var(--rule); font-size: 14px; }
+  .compare .hd { border-top: 0; font-family: var(--display); font-weight: 750; font-stretch: 90%; font-size: 16px; }
+  .compare .hd.jev { background: var(--accent-soft); color: var(--accent); }
+  .compare .row-label { font-family: var(--mono); font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  .compare .jev { background: var(--accent-soft); }
+
+  /* 3 · flow */
+  .flow { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 20px; overflow-x: auto; }
+  .flow pre.mermaid { margin: 0; display: flex; justify-content: center; font-family: var(--body); background: transparent; }
+  .flow-note { font-size: 14px; color: var(--muted); }
+  .flow-note b { color: var(--ochre); font-weight: 600; }
+
+  /* 4 · questions */
+  .questions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .q { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 14px 16px; display: grid; gap: 8px; align-content: start; }
+  .q .type { justify-self: start; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--accent); color: var(--accent); }
+  .q .type.yn { border-color: var(--muted); color: var(--muted); }
+  .q h3 { font-family: var(--body); font-weight: 600; font-size: 15px; font-stretch: normal; }
+  .q p { font-size: 13.5px; color: var(--muted); }
+
+  /* 5 · results + cost */
+  .evidence { display: grid; grid-template-columns: 1.3fr 1fr; gap: 32px; }
+  .panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 20px; display: grid; gap: 14px; align-content: start; }
+  .bars { display: grid; gap: 10px; }
+  .bar { display: grid; grid-template-columns: 150px 1fr 88px; gap: 12px; align-items: center; font-size: 14px; }
+  .bar .track { height: 14px; background: var(--bar-track); border-radius: 2px; position: relative; }
+  .bar .fill { position: absolute; inset-block: 0; left: 0; background: var(--accent); border-radius: 2px; }
+  .bar.weak .fill { background: var(--ochre); }
+  .bar .val { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 13px; text-align: right; }
+  .bar .val span { color: var(--muted); }
+  .bar.weak .name { color: var(--ochre); font-weight: 600; }
+  .axis { display: grid; grid-template-columns: 150px 1fr 88px; gap: 12px; font-family: var(--mono); font-size: 11px; color: var(--muted); }
+  .axis .ticks { display: flex; justify-content: space-between; }
+  .caption { font-size: 13px; color: var(--muted); }
+  .cost-bars { display: grid; gap: 14px; }
+  .cost { display: grid; gap: 6px; }
+  .cost .label { display: flex; justify-content: space-between; gap: 12px; font-size: 14px; }
+  .cost .label .num { font-weight: 500; }
+  .cost .track { height: 22px; background: var(--bar-track); border-radius: 2px; position: relative; }
+  .cost .fill { position: absolute; inset-block: 0; left: 0; background: var(--muted); border-radius: 2px; }
+  .cost.jev .fill { background: var(--accent); }
+
+  /* 6 · ideas */
+  .start-here { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .idea { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 16px; display: grid; gap: 8px; align-content: start; }
+  .idea.first { border-color: var(--accent); box-shadow: inset 0 3px 0 var(--accent); }
+  .idea .area { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); }
+  .idea p { font-size: 13.5px; color: var(--muted); }
+  .idea .why { font-size: 13px; color: var(--ink); }
+  .more { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1px solid var(--rule); }
+  .more div { padding: 12px 14px 12px 0; border-bottom: 1px solid var(--rule); display: grid; gap: 2px; align-content: start; }
+  .more .area { font-family: var(--mono); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+  .more b { font-weight: 600; font-size: 14px; }
+
+  /* 7 · pilot */
+  .pilot { display: grid; grid-template-columns: 1fr 1fr 2fr 1fr 1fr auto; gap: 6px; align-items: stretch; }
+  .phase { background: var(--surface); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px; display: grid; gap: 4px; align-content: start; }
+  .phase .wk { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+  .phase b { font-family: var(--display); font-stretch: 90%; font-weight: 750; font-size: 16px; }
+  .phase p { font-size: 13px; color: var(--muted); }
+  .phase.shadow { background: var(--accent-soft); border-color: var(--accent); }
+  .gate { display: grid; place-items: center; gap: 6px; padding-inline: 10px; text-align: center; }
+  .gate .diamond { width: 26px; height: 26px; transform: rotate(45deg); border: 2px solid var(--ochre); background: var(--ochre-soft); }
+  .gate b { font-family: var(--display); font-weight: 750; font-stretch: 90%; }
+  .gate p { font-size: 12px; color: var(--muted); max-width: 13ch; }
+  .needs { font-size: 14px; }
+
+  /* 8 · risks + faq */
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  .risks { display: grid; gap: 0; border-top: 1px solid var(--rule); }
+  .risk { display: grid; grid-template-columns: 150px 1fr; gap: 14px; padding-block: 10px; border-bottom: 1px solid var(--rule); font-size: 14px; }
+  .risk b { font-weight: 600; }
+  .risk span { color: var(--muted); }
+  .faq { display: grid; gap: 14px; }
+  .faq div { display: grid; gap: 2px; }
+  .faq b { font-weight: 600; font-size: 14.5px; }
+  .faq span { font-size: 14px; color: var(--muted); }
+
+  footer { border-top: 2px solid var(--ink); padding-block-start: 16px; display: grid; gap: 8px; font-size: 13px; color: var(--muted); }
+  footer ul { margin: 0; padding-left: 18px; display: grid; gap: 2px; }
+
+  @media (max-width: 860px) {
+    .hero, .evidence, .two { grid-template-columns: 1fr; }
+    .questions, .start-here { grid-template-columns: 1fr 1fr; }
+    .more { grid-template-columns: 1fr 1fr; }
+    .pilot { grid-template-columns: 1fr 1fr; }
+    .pilot .phase.shadow { grid-column: span 2; }
+    .gate { grid-column: span 2; grid-template-columns: auto 1fr; justify-items: start; text-align: left; place-items: center start; padding-block: 8px; }
+    .gate p { max-width: none; }
+  }
+  @media (max-width: 560px) {
+    .questions, .start-here, .more { grid-template-columns: 1fr; }
+    .compare { grid-template-columns: 1fr 1fr; }
+    .compare .row-label { grid-column: span 2; padding-bottom: 0; background: var(--ground); }
+    .compare .corner { display: none; }
+    .bar, .axis { grid-template-columns: 110px 1fr 76px; gap: 8px; }
+    .risk { grid-template-columns: 1fr; gap: 2px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .bar .fill, .cost .fill { transform-origin: left; animation: grow 700ms ease-out both; }
+    @keyframes grow { from { transform: scaleX(0.02); } to { transform: scaleX(1); } }
+  }
+</style>
+<style>body { margin: 0; }</style>
+</head>
+<body>
+<main class="page">
+
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Propuesta interna · Analítica transversal · borrador, 27 sep 2026</p>
+      <h1>Decidir rápido, <em>automatizar solo lo seguro</em></h1>
+      <p class="lead">Un piloto de 6 semanas, en modo sombra, para clasificar y priorizar las interacciones con afiliados con Jev, un modelo que no redacta: toma decisiones tipadas y dice qué tan seguro está de cada una.</p>
+    </div>
+    <div class="figures" aria-label="Cifras clave">
+      <div class="figure"><span class="big">87<small> %</small></span><p><strong>precisión identificando el proceso</strong> entre 10 opciones, en la demo con un LLM ligero</p></div>
+      <div class="figure"><span class="big"><small>USD </small>~30</span><p><strong>por millón de interacciones</strong> con Jev (estimado a precio de lista, ~700 tokens cada una)</p></div>
+      <div class="figure"><span class="big">6<small> sem</small></span><p><strong>de piloto sin tocar la operación</strong>, con decisión go/no-go al final</p></div>
+    </div>
+  </header>
+
+  <section aria-labelledby="h-compare">
+    <div class="section-head">
+      <p class="eyebrow">Qué es Jev</p>
+      <h2 id="h-compare">Un LLM redacta; Jev decide</h2>
+      <p class="lead">La combinación ganadora es híbrida: Jev decide sobre todos los casos, y un LLM o una persona explica solo los dudosos o de alto riesgo.</p>
+    </div>
+    <div class="compare" role="table" aria-label="Comparación LLM y Jev">
+      <div class="hd corner" role="columnheader"></div>
+      <div class="hd" role="columnheader">LLM (Gemini, Claude, GPT)</div>
+      <div class="hd jev" role="columnheader">Jev (System One)</div>
+
+      <div class="row-label" role="rowheader">Salida</div>
+      <div role="cell">Texto que luego hay que interpretar</div>
+      <div class="jev" role="cell">Una opción, un puntaje o un sí/no, listos para usar</div>
+
+      <div class="row-label" role="rowheader">Confianza</div>
+      <div role="cell">No calibrada</div>
+      <div class="jev" role="cell">Probabilidad calibrada por decisión</div>
+
+      <div class="row-label" role="rowheader">Velocidad</div>
+      <div role="cell">Genera palabra por palabra</div>
+      <div class="jev" role="cell">Una sola pasada, todas las preguntas en paralelo</div>
+
+      <div class="row-label" role="rowheader">Costo</div>
+      <div role="cell">Tokens de entrada y salida</div>
+      <div class="jev" role="cell">Solo entrada: <span class="num">USD 0,042</span> por millón de tokens</div>
+
+      <div class="row-label" role="rowheader">Límites</div>
+      <div role="cell">Costo y latencia a gran escala</div>
+      <div class="jev" role="cell">Solo texto; mejor en inglés, el español hay que medirlo</div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-flow">
+    <div class="section-head">
+      <p class="eyebrow">Caso insignia · triage de interacciones</p>
+      <h2 id="h-flow">Cada mensaje pasa una vez por Jev; lo dudoso lo ve una persona</h2>
+    </div>
+    <div class="flow">
+<pre class="mermaid">
+flowchart LR
+    msg["Mensaje del afiliado&lt;br/&gt;WhatsApp · chat · correo · PQRS"] --> anon["Anonimización"]
+    anon --> jev["Jev: una pasada&lt;br/&gt;proceso · urgencia · alertas"]
+    jev --> dec{"¿Confianza alta?"}
+    dec -->|sí| auto["Enrutamiento automático"]
+    dec -->|no| human["Asesor o LLM que explica"]
+    auto --> board[("Tablero del líder&lt;br/&gt;proceso × urgencia + alertas")]
+    human --> board
+</pre>
+    </div>
+    <p class="flow-note">El líder fija <b>el umbral de confianza</b> con la curva automatización vs precisión. Cada decisión queda registrada con su modelo, versión y probabilidad.</p>
+  </section>
+
+  <section aria-labelledby="h-questions">
+    <div class="section-head">
+      <p class="eyebrow">Una sola llamada por mensaje</p>
+      <h2 id="h-questions">Seis preguntas que ordenan la fila</h2>
+    </div>
+    <div class="questions">
+      <div class="q"><span class="type">opción</span><h3>¿Sobre qué proceso es?</h3><p>Vejez, cesantías, traslado y doble asesoría, reforma, devolución de saldos, invalidez y sobrevivencia, certificados, voluntarias, acceso. Enruta a la célula correcta.</p></div>
+      <div class="q"><span class="type">opción o puntaje</span><h3>¿Qué tan urgente es?</h3><p>Baja, media o alta. Prioriza la fila.</p></div>
+      <div class="q"><span class="type yn">sí / no</span><h3>¿Riesgo de queja formal?</h3><p>Superfinanciera, Defensor del Consumidor Financiero, tutela o demanda. Escala antes de que se vuelva queja.</p></div>
+      <div class="q"><span class="type yn">sí / no</span><h3>¿Pide hablar con una persona?</h3><p>Evita la frustración de responder con un bot a quien quiere un asesor.</p></div>
+      <div class="q"><span class="type yn">sí / no</span><h3>¿Afiliado vulnerable?</h3><p>Adulto mayor, enfermedad, duelo o apuro económico. Atención preferente.</p></div>
+      <div class="q"><span class="type yn">sí / no</span><h3>¿Quiere irse del fondo?</h3><p>A Colpensiones u otra AFP. Alerta temprana a retención.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-evidence">
+    <div class="section-head">
+      <p class="eyebrow">Primera evidencia · demo con 60 mensajes sintéticos</p>
+      <h2 id="h-evidence">El proceso ya se identifica bien; la urgencia es donde Jev debe aportar</h2>
+    </div>
+    <div class="evidence">
+      <div class="panel">
+        <h3>Precisión por pregunta (línea base LLM, Gemini 3.1 Flash-Lite)</h3>
+        <div class="bars">
+          <div class="bar"><span class="name">Riesgo de traslado</span><span class="track"><span class="fill" style="width:90%"></span></span><span class="val">90 % <span>κ0,78</span></span></div>
+          <div class="bar"><span class="name">Riesgo de queja</span><span class="track"><span class="fill" style="width:88%"></span></span><span class="val">88 % <span>κ0,71</span></span></div>
+          <div class="bar"><span class="name">Proceso (10 clases)</span><span class="track"><span class="fill" style="width:87%"></span></span><span class="val">87 % <span>κ0,85</span></span></div>
+          <div class="bar"><span class="name">Vulnerabilidad</span><span class="track"><span class="fill" style="width:87%"></span></span><span class="val">87 % <span>κ0,71</span></span></div>
+          <div class="bar"><span class="name">Pide humano</span><span class="track"><span class="fill" style="width:77%"></span></span><span class="val">77 % <span>κ0,51</span></span></div>
+          <div class="bar weak"><span class="name">Urgencia</span><span class="track"><span class="fill" style="width:52%"></span></span><span class="val">52 % <span>κ0,23</span></span></div>
+        </div>
+        <div class="axis" aria-hidden="true"><span></span><span class="ticks"><span>0 %</span><span>50 %</span><span>100 %</span></span><span></span></div>
+        <p class="caption">El LLM marca casi todo como urgencia alta. Una escala ordinal calibrada (Jev Score) y una rúbrica más precisa son el siguiente paso. κ = acuerdo más allá del azar. Jev falta por correr: requiere llave de acceso temprano.</p>
+      </div>
+      <div class="panel">
+        <h3>Costo por millón de interacciones</h3>
+        <div class="cost-bars">
+          <div class="cost"><div class="label"><span>LLM ligero (medido en la demo)</span><span class="num">USD 204</span></div><div class="track"><span class="fill" style="width:100%"></span></div></div>
+          <div class="cost jev"><div class="label"><span>Jev (estimado, precio de lista)</span><span class="num">USD ~30</span></div><div class="track"><span class="fill" style="width:14.7%"></span></div></div>
+        </div>
+        <p class="caption">Jev cobra solo tokens de entrada y lee el mensaje una vez para todas las preguntas. Estimado con ~700 tokens por interacción; el piloto lo mide con datos reales.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-ideas">
+    <div class="section-head">
+      <p class="eyebrow">Mismo patrón, otras áreas</p>
+      <h2 id="h-ideas">Dónde más sirve una decisión rápida con probabilidad</h2>
+      <p class="lead">Texto a evaluar, preguntas tipadas, un umbral de confianza y una persona en el circuito. Recomendamos empezar por una de estas tres.</p>
+    </div>
+    <div class="start-here">
+      <div class="idea first"><span class="area">Servicio y canales</span><h3>Triage multicanal</h3><p>Proceso, urgencia, riesgo de queja, vulnerabilidad y pide humano en cada mensaje.</p><p class="why">Volumen alto y KPIs claros: filas más cortas, menos reasignaciones.</p></div>
+      <div class="idea"><span class="area">Calidad de asesoría</span><h3>Monitoreo del 100 % de las interacciones</h3><p>¿Se explicaron los riesgos? ¿Se informó la doble asesoría en un traslado? ¿Hubo promesa indebida de rentabilidad?</p><p class="why">Valor regulatorio visible: cobertura total en vez de muestras.</p></div>
+      <div class="idea"><span class="area">Inversiones</span><h3>Noticias de emisores</h3><p>¿Afecta a un emisor del portafolio? Tipo de evento, severidad, controversia ESG.</p><p class="why">Sin datos personales: aval de privacidad más simple.</p></div>
+    </div>
+    <div class="more">
+      <div><span class="area">Servicio y canales</span><b>Apoyo al asesor en vivo</b></div>
+      <div><span class="area">Reconocimiento de pensiones</span><b>Pre-revisión de solicitudes</b></div>
+      <div><span class="area">Jurídica</span><b>Tutelas y derechos de petición por plazo</b></div>
+      <div><span class="area">Riesgos, SARLAFT y fraude</span><b>Suplantación y noticias adversas</b></div>
+      <div><span class="area">Comercial y retención</span><b>Intención de traslado</b></div>
+      <div><span class="area">Educación financiera</span><b>Dudas sobre la reforma (Ley 2381 de 2024)</b></div>
+      <div><span class="area">Gestión humana</span><b>Comentarios de clima</b></div>
+      <div><span class="area">Analítica transversal</span><b>Probabilidades de Jev como variables</b></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-pilot">
+    <div class="section-head">
+      <p class="eyebrow">Plan de piloto</p>
+      <h2 id="h-pilot">En 6 semanas el área sabe cuánto puede automatizar, con sus propios datos</h2>
+    </div>
+    <div class="pilot">
+      <div class="phase"><span class="wk">Semana 1</span><b>Taxonomía</b><p>300 a 500 mensajes anonimizados, etiquetados por el área</p></div>
+      <div class="phase"><span class="wk">Semana 2</span><b>Línea base</b><p>LLM vs Jev en nuestros datos: precisión, calibración, costo</p></div>
+      <div class="phase shadow"><span class="wk">Semanas 3 y 4</span><b>Modo sombra</b><p>El sistema clasifica en paralelo, sin afectar afiliados, y se compara a diario con lo que hicieron los asesores</p></div>
+      <div class="phase"><span class="wk">Semana 5</span><b>Umbral</b><p>Automatización vs precisión, elegido con el líder</p></div>
+      <div class="phase"><span class="wk">Semana 6</span><b>Decisión</b><p>Go / no-go con los KPIs</p></div>
+      <div class="gate"><span class="diamond" aria-hidden="true"></span><div><b>Go / no-go</b><p>precisión ≥ 95 % en lo automatizado</p></div></div>
+    </div>
+    <p class="needs"><strong>Qué necesita cada área:</strong> un dueño de proceso con 4 horas por semana, una muestra anonimizada y 2 o 3 personas que etiqueten unas 2 horas.</p>
+  </section>
+
+  <section aria-labelledby="h-risks">
+    <div class="two">
+      <div class="section-head" style="gap:14px">
+        <p class="eyebrow">Riesgos y cómo se controlan</p>
+        <h2 id="h-risks">Nada con datos reales sin aval</h2>
+        <div class="risks">
+          <div class="risk"><b>Datos personales</b><span>Ley 1581 de 2012: datos sintéticos o anonimizados; aval de Seguridad y Cumplimiento sobre nube y tercerización ante la Superfinanciera.</span></div>
+          <div class="risk"><b>Idioma</b><span>Medir en español real; preguntas en inglés con cada opción definida.</span></div>
+          <div class="risk"><b>Proveedor nuevo</b><span>Acceso temprano y límites cambiantes: fijar la versión del modelo y mantener un LLM de respaldo.</span></div>
+          <div class="risk"><b>Vulnerables</b><span>La marca solo prioriza, nunca niega servicio; revisión mensual de falsos negativos.</span></div>
+          <div class="risk"><b>Explicabilidad</b><span>Probabilidad por decisión, LLM que explica los escalados y revisión humana por muestreo.</span></div>
+        </div>
+      </div>
+      <div class="section-head" style="gap:14px">
+        <p class="eyebrow">Lo que preguntan los líderes</p>
+        <h2>Respuestas cortas</h2>
+        <div class="faq">
+          <div><b>¿Reemplaza personas?</b><span>No. Saca de la fila lo obvio y lleva lo difícil a quien sabe. El umbral lo decide el área.</span></div>
+          <div><b>¿Y si se equivoca?</b><span>Lo dudoso no se automatiza, y cada decisión queda registrada con su probabilidad.</span></div>
+          <div><b>¿Los datos salen de la compañía?</b><span>En la demo no: son sintéticos. Con datos reales, primero se anonimiza y se obtiene el aval.</span></div>
+          <div><b>¿Funciona en español?</b><span>Es lo primero que mide el piloto, contra un LLM, antes de decidir.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Datos de la demo 100 % sintéticos. Costos: precio de lista del proveedor y pruebas propias. Las referencias normativas deben validarse con Jurídica y Cumplimiento.</p>
+    <ul>
+      <li><a href="https://docs.typesafe.ai/models">TypeSafe AI: modelos, precios, límites e idiomas</a></li>
+      <li><a href="https://docs.typesafe.ai/introduction">TypeSafe AI: preguntas Choice, Score y Noul</a></li>
+      <li><a href="https://docs.typesafe.ai/concepts/state">TypeSafe AI: estado y soporte de idioma</a></li>
+      <li>Resultados de la demo: repositorio genai-data-analysis, notebook 08 y docs/research.md</li>
+    </ul>
+  </footer>
+
+</main>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs";
+  const dark = matchMedia("(prefers-color-scheme: dark)").matches;
+  mermaid.initialize({ startOnLoad: true, theme: dark ? "dark" : "neutral" });
+</script>
+</body>
+</html>
