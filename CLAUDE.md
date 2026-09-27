@@ -18,7 +18,7 @@ uv add <pkg> / uv add --dev <pkg>
 
 ## What this repo is
 
-A data-science toolbox + lab for turning human data (WhatsApp chats, surveys, tickets, audio/images) into typed, evaluated results with LLMs and other generative models. Notebooks in `notebooks/` are the lab; code reused across notebooks gets promoted into `src/genaianalysis/`. Work happens on `dev`.
+User-facing orientation lives in `docs/walkthrough.md`; keep it in sync when adding modules or notebooks. Diagrams in docs and notebook markdown are mermaid code blocks, not ASCII art. A data-science toolbox + lab for turning human data (WhatsApp chats, surveys, tickets, audio/images) into typed, evaluated results with LLMs and other generative models. Notebooks in `notebooks/` are the lab; code reused across notebooks gets promoted into `src/genaianalysis/`. Work happens on `dev`.
 
 ## Architecture (target design, being built in phases)
 
@@ -34,7 +34,7 @@ Plus `eval.score` (accuracy / macro-F1 / kappa / coverage / latency / cost / ECE
 
 `ingest/whatsapp.py` parses Android and iOS exports (es/en locales, 12h/24h clocks, `\u202f`/`\u200e` marks, multi-line messages, attachments, zip with media) and splits a chat into sessions by idle gap. Fixtures live in `tests/fixtures/`. Don't add registries, factories or plugin systems until a second real need exists.
 
-Notebooks: 03 WhatsApp → sentiment arc, 04 model benchmark, 05 Jev vs LLM, 06 topic discovery (`topics.embed` via pydantic-ai `Embedder` → `topics.cluster` KMeans/silhouette → `topics.label_clusters` LLM naming). Notebook 06 reads the jsonl datasets that 04 writes to `data/processed/`. Phase 4+ = one notebook per technique from the radar in `docs/research.md`; promote code into the package only once a second notebook needs it.
+Notebooks: 03 WhatsApp → sentiment arc, 04 model benchmark, 05 Jev vs LLM, 06 topic discovery (`topics.embed` via pydantic-ai `Embedder` → `topics.cluster` KMeans/silhouette → `topics.label_clusters` LLM naming), 08 Protección pension-fund triage use case (notebook-local `Triage` task, synthetic affiliate messages, Jev confidence routing; business case in `docs/usecases/proteccion_jev.md`), 07 LLM-as-judge (`tasks/judge.py`: rubric `ARC_JUDGE` and `FINAL_SENTIMENT_PAIRWISE`, with `with_candidate`/`with_options` appending the output or options to the chat; the judge is validated with deliberate corruptions and order-swapped pairs before its verdicts are trusted). Notebooks 05–07 read the jsonl datasets that 04 writes to `data/processed/`. Phase 4+ = one notebook per technique from the radar in `docs/research.md`; promote code into the package only once a second notebook needs it.
 
 ## Legacy code
 
@@ -45,7 +45,7 @@ The former employer's pipeline (`generate/to_migrate.py`: Firestore/GCS/BigQuery
 - There is no credentials module. SDKs read standard env vars from `.env` (names in `.env.example`): `GEMINI_API_KEY`, `ANTHROPIC_API_KEY`, and for Vertex `GOOGLE_APPLICATION_CREDENTIALS` / `GOOGLE_CLOUD_PROJECT` / `GOOGLE_CLOUD_LOCATION`. Key files go in `secrets/` (git-ignored).
 - Load `.env` with an explicit path: `load_dotenv(project_dir(".env"))`. A bare `load_dotenv()` fails when run from stdin/`-c`.
 - pydantic-ai prefixes: `google:` (Gemini API), `anthropic:`, `openai:`, `ollama:`. `Agent.run` returns a result whose `.usage` is a property (not a method); `.usage.cost` is the USD cost from genai-prices.
-- Gemini free tier allows 15 requests/min per model (and `gemini-flash-latest` → gemini-3.8-flash only **20 requests/day**, so free-tier runs use `gemini-flash-lite-latest`), so pass `rpm=12` to `run_task`/`generate_chats`. `with_retries` backs off for ~62 s total to survive 429/503 errors.
+- Gemini free tier allows 15 requests/min and 500 requests/day per model (quota is per model id, so switch to e.g. `gemini-3.1-flash-lite` when one is exhausted) (and `gemini-flash-latest` → gemini-3.8-flash only **20 requests/day**, so free-tier runs use `gemini-flash-lite-latest`), so pass `rpm=12` to `run_task`/`generate_chats`. `with_retries` backs off for ~62 s total to survive 429/503 errors.
 - Jev: package `typesafe-sdk` (import `typesafe_sdk`), env `TYPESAFE_API_KEY`, `client.system_one(state, {name: Choice|Noul|Score})`. The SDK retries on its own. Text only, strongest in English. Docs as markdown: `https://docs.typesafe.ai/<page>.md` (index at `/llms.txt`).
 - Gemini model ids get retired quickly (`gemini-2.0-flash` and `gemini-2.5-flash` already return 404), so default to aliases like `gemini-flash-latest`. List live ids with `genai.Client().models.list()`. 503 "high demand" errors are transient on Google's side.
 - `utils/paths.py` gives project-root-relative helpers (`project_dir`, `data_raw_dir`, …) via pyprojroot; use them instead of relative paths.

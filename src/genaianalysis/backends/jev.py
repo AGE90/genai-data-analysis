@@ -27,8 +27,15 @@ def questions_for(task: Task) -> dict[str, Choice | Noul]:
     for name, field in task.output_type.model_fields.items():
         if typing.get_origin(field.annotation) is typing.Literal:
             options = typing.get_args(field.annotation)
+            # optional per-option rubric: Field(json_schema_extra={"criteria": {option: text}})
+            extra = field.json_schema_extra if isinstance(field.json_schema_extra, dict) else {}
+            rubric = extra.get("criteria") or {}
+            assert isinstance(rubric, dict)
             questions[name] = Choice(
-                instructions=field.description, criteria={str(o): None for o in options}
+                instructions=field.description,
+                criteria={
+                    str(o): str(rubric[str(o)]) if str(o) in rubric else None for o in options
+                },
             )
         elif field.annotation is bool:
             questions[name] = Noul(instructions=field.description)

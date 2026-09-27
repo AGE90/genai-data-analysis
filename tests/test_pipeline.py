@@ -81,3 +81,19 @@ def test_ece():
     conf = pd.Series([0.9] * 10)
     assert ece(conf, pd.Series([True] * 9 + [False])) == pytest.approx(0.0)
     assert ece(conf, pd.Series([False] * 10)) == pytest.approx(0.9)
+
+
+def test_jev_choice_uses_option_rubric():
+    from typing import Literal
+
+    from pydantic import BaseModel, Field
+
+    from genaianalysis.schema import Task
+
+    class Out(BaseModel):
+        intent: Literal["a", "b"] = Field(
+            description="Intent", json_schema_extra={"criteria": {"a": "about A"}}
+        )
+
+    q = questions_for(Task("t", Out, "x"))["intent"]
+    assert q.criteria == {"a": "about A", "b": None}

@@ -7,7 +7,7 @@ genai-data-analysis/
 ├── pyproject.toml            # Metadata, dependencies, ruff/pytest/mypy config
 ├── uv.lock                   # Locked dependency versions
 ├── data/                     # raw/ processed/ external/ (git-ignored contents)
-├── docs/                     # Documentation
+├── docs/                     # walkthrough.md (start here), research.md (results), usecases/
 ├── notebooks/                # Lab: one numbered notebook per technique/experiment
 ├── pipelines/                # Task automation and data processing pipelines
 ├── reports/                  # Analysis results
@@ -20,7 +20,7 @@ genai-data-analysis/
 │   ├── privacy.py            # anonymize(): pseudonyms + redaction before anything leaves the machine
 │   ├── media.py              # describe_media(): attachments -> text (transcribe/describe), cached
 │   ├── topics.py             # embed() -> cluster() -> label_clusters(): unsupervised topics
-│   ├── tasks/                # Task definitions (sentiment.py, topics.py)
+│   ├── tasks/                # Task definitions (sentiment.py, topics.py, judge.py)
 │   ├── backends/jev.py       # TypeSafe Jev System One backend (same Task, same row shape)
 │   └── utils/paths.py        # Project-relative path helpers
 └── tests/                    # pytest tests (+ fixtures/ with synthetic WhatsApp exports)
